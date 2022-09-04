@@ -23,17 +23,15 @@ namespace Devs.Persistence.Context
         {
             modelBuilder.Entity<ProgrammingLanguage>(x =>
             {
-               x.ToTable("programminglanguages").HasKey(pk=>pk.Id);
+               x.ToTable("ProgrammingLanguages").HasKey(pk=>pk.Id);
                x.Property(p=>p.Id).HasColumnName("Id");
                x.Property(p=>p.Name).HasColumnName("Name");
 
             });
 
-            /*
-            ProgrammingLanguage[] programmingLanguageSeedData = {new(1,"C#")};
-            modelBuilder.Entity<ProgrammingLanguage>().HasData(ProgrammingLanguages);
-*/
 
+             ProgrammingLanguage[] programmingLanguageEntitySeeds = { new(1, "C#"), new(2, "Java") };
+            modelBuilder.Entity<ProgrammingLanguage>().HasData(programmingLanguageEntitySeeds);
 
         }
 
