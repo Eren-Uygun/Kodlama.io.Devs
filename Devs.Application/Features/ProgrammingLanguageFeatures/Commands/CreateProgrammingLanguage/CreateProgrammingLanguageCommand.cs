@@ -15,7 +15,7 @@ namespace Devs.Application.Features.ProgrammingLanguageFeatures.Commands.CreateP
     public class CreateProgrammingLanguageCommand:IRequest<CreatedProgrammingLanguageDto>
     {
 
-        public string Name { get; set; }
+        public string ProgrammingLanguageName { get; set; }
 
         public class CreateProgrammingLanguageCommandHandler : IRequestHandler<CreateProgrammingLanguageCommand, CreatedProgrammingLanguageDto>
         {
@@ -32,7 +32,7 @@ namespace Devs.Application.Features.ProgrammingLanguageFeatures.Commands.CreateP
 
             public async Task<CreatedProgrammingLanguageDto> Handle(CreateProgrammingLanguageCommand request, CancellationToken cancellationToken)
             {
-                await _programmingLanguageBusinessRules.ProgrammingLanguageNameCanNotBeDuplicatedWhenInserted(request.Name);
+                await _programmingLanguageBusinessRules.ProgrammingLanguageNameCanNotBeDuplicatedWhenInserted(request.ProgrammingLanguageName);
 
                 ProgrammingLanguage mappedProgrammingLanguage = _mapper.Map<ProgrammingLanguage>(request);
                 ProgrammingLanguage createdProgrammingLanguage = await _programmingLanguageRepository.AddAsync(mappedProgrammingLanguage);

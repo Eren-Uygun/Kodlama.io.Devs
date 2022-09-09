@@ -1,5 +1,6 @@
 ﻿using Core.Application.Pipelines.Validation;
 using Devs.Application.Features.ProgrammingLanguageFeatures.Rules;
+using Devs.Application.Features.TechnologyFeatures.Rules;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Devs.Application.Features.ProgrammingLanguageFeatures
+namespace Devs.Application
 {
     public static class ApplicationServiceRegistration
     {
@@ -18,7 +19,9 @@ namespace Devs.Application.Features.ProgrammingLanguageFeatures
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+
             services.AddScoped<ProgrammingLanguageBusinessRules>();
+            services.AddScoped<TechnologyBusinessRules>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

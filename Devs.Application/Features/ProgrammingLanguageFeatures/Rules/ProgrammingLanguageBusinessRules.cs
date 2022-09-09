@@ -24,8 +24,8 @@ namespace Devs.Application.Features.ProgrammingLanguageFeatures.Rules
 
         public async Task ProgrammingLanguageNameCanNotBeDuplicatedWhenInserted(string name)
         {
-            IPaginate<ProgrammingLanguage> result = await _programmingLanguageRepository.GetListAsync(x=>x.Name == name);
-            if(result.Items.Any()) throw new BusinessException("Requested programming language does not exists");
+            IPaginate<ProgrammingLanguage> result = await _programmingLanguageRepository.GetListAsync(x=>x.ProgrammingLanguageName == name);
+            if(result.Items.Any()) throw new BusinessException("Programming language exists");
         }
 
         public void checkProgrammingLanguageWhenRequested(ProgrammingLanguage? result)

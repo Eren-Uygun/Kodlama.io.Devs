@@ -16,7 +16,7 @@ namespace Devs.Application.Features.ProgrammingLanguageFeatures.Commands.UpdateP
     public class UpdateProgrammingLanguageCommand:IRequest<UpdatedProgrammingLanguageDto>
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string ProgrammingLanguageName { get; set; }
 
         public class UpdateProgrammingLanguageCommandHandler : IRequestHandler<UpdateProgrammingLanguageCommand, UpdatedProgrammingLanguageDto>
         {
@@ -37,7 +37,7 @@ namespace Devs.Application.Features.ProgrammingLanguageFeatures.Commands.UpdateP
 
                 _programmingLanguageBusinessRules.checkProgrammingLanguageWhenRequested(item);
 
-                await _programmingLanguageBusinessRules.ProgrammingLanguageNameCanNotBeDuplicatedWhenInserted(request.Name);
+                await _programmingLanguageBusinessRules.ProgrammingLanguageNameCanNotBeDuplicatedWhenInserted(request.ProgrammingLanguageName);
 
 
                _mapper.Map(request,item);

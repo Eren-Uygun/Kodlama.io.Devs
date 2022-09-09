@@ -14,8 +14,8 @@ namespace Devs.Application.Features.ProgrammingLanguageFeatures.Commands.UpdateP
             RuleFor(x=>x.Id).NotNull();
             RuleFor(x=>x.Id).NotEmpty();
 
-            RuleFor(x=>x.Name).NotNull();
-            RuleFor(x=>x.Name).NotEmpty();
+            RuleFor(x=>x.ProgrammingLanguageName).NotNull();
+            RuleFor(x=>x.ProgrammingLanguageName).NotEmpty();
         }
 
     }

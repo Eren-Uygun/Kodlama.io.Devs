@@ -14,12 +14,14 @@ namespace Devs.Domain.Entities
 
         }
 
-        public string Name { get; set; }
+        public string ProgrammingLanguageName { get; set; }
 
-        public ProgrammingLanguage(int id,string name):this()
+        public virtual ICollection<Technology> Technologies {get;set;}
+
+        public ProgrammingLanguage(int id,string programmingLanguageName):this()
         {
             Id = id;
-            Name = name;
+            ProgrammingLanguageName = programmingLanguageName;
         }
 
     }
