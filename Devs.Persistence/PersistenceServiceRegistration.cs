@@ -1,6 +1,8 @@
-﻿using Devs.Application.Services.Repositories;
+﻿using Core.Security.JWT;
+using Devs.Application.Services.Repositories;
 using Devs.Persistence.Context;
 using Devs.Persistence.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +24,10 @@ namespace Devs.Persistence
             
             services.AddScoped<IProgrammingLanguageRepository,ProgrammingLanguageRepository>();
             services.AddScoped<ITechnologyRepository,TechnologyRepository>();
+            services.AddScoped<IAppUserRepository,AppUserRepository>();
+            services.AddScoped<IUserGitHubRepository,UserGitHubRepository>();
+
+
             return services;
         }
     }

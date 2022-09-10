@@ -1,6 +1,8 @@
-﻿using Core.Application.Pipelines.Validation;
+﻿using Core.Application.Pipelines.Authorization;
+using Core.Application.Pipelines.Validation;
 using Devs.Application.Features.ProgrammingLanguageFeatures.Rules;
 using Devs.Application.Features.TechnologyFeatures.Rules;
+using Devs.Application.Features.UserGitHubFeatures.Rules;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,14 +21,17 @@ namespace Devs.Application
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
+           
 
             services.AddScoped<ProgrammingLanguageBusinessRules>();
             services.AddScoped<TechnologyBusinessRules>();
+            services.AddScoped<UserGitHubBusinessRules>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-            /*
+            
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationBehavior<,>));
+            /*
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CachingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CacheRemovingBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));

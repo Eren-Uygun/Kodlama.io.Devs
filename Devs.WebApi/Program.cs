@@ -1,3 +1,4 @@
+using Application;
 using Core.CrossCuttingConcerns.Exceptions;
 using Devs.Application;
 using Devs.Persistence;
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices();
-//builder.Services.AddSecurityServices();
+builder.Services.AddSecurityServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 //builder.Services.AddInfrastructureServices();
 //builder.Services.AddHttpContextAccessor();

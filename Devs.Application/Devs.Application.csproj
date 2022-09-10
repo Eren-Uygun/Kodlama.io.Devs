@@ -18,5 +18,12 @@
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.1" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
+	
+	  <ItemGroup>
+	    <Folder Include="Features\AppUserFeatures\Models\" />
+	    <Folder Include="Features\AppUserFeatures\Queries\" />
+	    <Folder Include="Features\UserGitHubFeatures\Models\" />
+	    <Folder Include="Features\UserGitHubFeatures\Queries\" />
+	  </ItemGroup>
 
 </Project>
