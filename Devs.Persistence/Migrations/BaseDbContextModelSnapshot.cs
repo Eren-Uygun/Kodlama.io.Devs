@@ -39,6 +39,18 @@ namespace Devs.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OperationClaims", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "User"
+                        });
                 });
 
             modelBuilder.Entity("Core.Security.Entities.RefreshToken", b =>
@@ -265,28 +277,20 @@ namespace Devs.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AppUserId")
-                        .HasColumnType("int")
-                        .HasColumnName("AppUserId");
-
                     b.Property<string>("GitHubUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("GitHubUrl");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("UserId");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserGitHub", (string)null);
-                });
-
-            modelBuilder.Entity("Devs.Domain.Entities.AppUser", b =>
-                {
-                    b.HasBaseType("Core.Security.Entities.User");
-
-                    b.ToTable("AppUser", (string)null);
                 });
 
             modelBuilder.Entity("Core.Security.Entities.RefreshToken", b =>
@@ -332,22 +336,13 @@ namespace Devs.Persistence.Migrations
 
             modelBuilder.Entity("Devs.Domain.Entities.UserGitHub", b =>
                 {
-                    b.HasOne("Devs.Domain.Entities.AppUser", "AppUser")
-                        .WithOne("UserGitHub")
-                        .HasForeignKey("Devs.Domain.Entities.UserGitHub", "AppUserId")
+                    b.HasOne("Core.Security.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
-                });
-
-            modelBuilder.Entity("Devs.Domain.Entities.AppUser", b =>
-                {
-                    b.HasOne("Core.Security.Entities.User", null)
-                        .WithOne()
-                        .HasForeignKey("Devs.Domain.Entities.AppUser", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.User", b =>
@@ -360,12 +355,6 @@ namespace Devs.Persistence.Migrations
             modelBuilder.Entity("Devs.Domain.Entities.ProgrammingLanguage", b =>
                 {
                     b.Navigation("Technologies");
-                });
-
-            modelBuilder.Entity("Devs.Domain.Entities.AppUser", b =>
-                {
-                    b.Navigation("UserGitHub")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

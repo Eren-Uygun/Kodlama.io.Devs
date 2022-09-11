@@ -16,7 +16,7 @@ namespace Devs.Application.Features.UserGitHubFeatures.Commands.UpdateUserGitHub
     public class UpdateUserGitHubCommand:IRequest<UpdatedUserGitHubDto>
     {
         public int Id { get; set; }
-        public int AppUserId {get;set;}
+        public int UserId {get;set;}
         public string GitHubUrl { get; set; }
 
         public class UpdateUserGitHubCommandHandler : IRequestHandler<UpdateUserGitHubCommand, UpdatedUserGitHubDto>
@@ -36,11 +36,9 @@ namespace Devs.Application.Features.UserGitHubFeatures.Commands.UpdateUserGitHub
             {
                 var result = await _userGitHubRepository.GetAsync(x=>x.Id == request.Id);
 
-                await _userGitHubBusinessRules.CheckUserGitHubUrlCanNotBeDuplicated(request.GitHubUrl);
-
-
-                UserGitHub mappedUserGitHub = _mapper.Map<UserGitHub>(result);
-                UserGitHub updatedUserGitHub = await _userGitHubRepository.UpdateAsync(mappedUserGitHub);
+                //await _userGitHubBusinessRules.CheckUserGitHubUrlCanNotBeDuplicated(request.GitHubUrl);
+                _mapper.Map(request,result);
+                UserGitHub updatedUserGitHub = await _userGitHubRepository.UpdateAsync(result);
                 UpdatedUserGitHubDto updatedUserGitHubDto = _mapper.Map<UpdatedUserGitHubDto>(updatedUserGitHub);
 
                 return updatedUserGitHubDto;

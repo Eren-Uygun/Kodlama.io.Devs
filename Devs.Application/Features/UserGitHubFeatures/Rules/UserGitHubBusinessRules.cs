@@ -1,5 +1,6 @@
 ﻿using Core.CrossCuttingConcerns.Exceptions;
 using Core.Persistence.Paging;
+using Core.Security.Entities;
 using Devs.Application.Services.Repositories;
 using Devs.Domain.Entities;
 using System;
@@ -26,9 +27,9 @@ namespace Devs.Application.Features.UserGitHubFeatures.Rules
 
         }
 
-        public void CheckIsAppUserExists(AppUser appUser)
+        public void CheckIsAppUserExists(User user)
         {
-            if(appUser==null) throw new BusinessException("AppUser does not exists");
+            if(user==null) throw new BusinessException("AppUser does not exists");
         }
 
         public void CheckIsUserGitHubExists(UserGitHub userGitHub)

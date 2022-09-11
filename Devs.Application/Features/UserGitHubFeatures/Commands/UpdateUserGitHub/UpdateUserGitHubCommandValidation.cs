@@ -14,8 +14,8 @@ namespace Devs.Application.Features.UserGitHubFeatures.Commands.UpdateUserGitHub
             RuleFor(x=>x.Id).NotEmpty();
             RuleFor(x=>x.Id).NotNull();
 
-            RuleFor(x=>x.AppUserId).NotNull();
-            RuleFor(x=>x.AppUserId).NotEmpty();
+            RuleFor(x=>x.UserId).NotNull();
+            RuleFor(x=>x.UserId).NotEmpty();
 
             RuleFor(x=>x.GitHubUrl).NotEmpty();
             RuleFor(x=>x.GitHubUrl).NotNull();

@@ -10,20 +10,20 @@ namespace Devs.Domain.Entities
 {
     public class UserGitHub:Entity
     {
-        public int AppUserId {get;set;}
+        public int UserId {get;set;}
         public string GitHubUrl { get; set; }
 
-        public virtual AppUser AppUser {get;set;}
+        public virtual User User {get;set;}
 
         public UserGitHub()
         {
 
         }
 
-        public UserGitHub(int id,int appUserId, string gitHubUrl):this()
+        public UserGitHub(int id,int userId, string gitHubUrl):this()
         {
             Id = id;
-            AppUserId = appUserId;
+            UserId = userId;
             GitHubUrl = gitHubUrl;
         }
     }

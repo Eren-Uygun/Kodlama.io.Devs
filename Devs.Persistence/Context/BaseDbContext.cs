@@ -17,14 +17,10 @@ namespace Devs.Persistence.Context
         protected IConfiguration Configuration { get; set; }
         private DbSet<ProgrammingLanguage> ProgrammingLanguages { get; set; }
         private DbSet<Technology> Technologies { get; set; }
-        private DbSet<AppUser> AppUsers { get; set; }
         private DbSet<UserGitHub> UserGitHubs { get; set; }
         private DbSet<User> Users { get; set; }
         private DbSet<OperationClaim> OperationClaims { get; set; }
         private DbSet<UserOperationClaim> UserOperationClaims { get; set; }
-
-
-        //private DbSet<User> Users {get;set;} 
 
         public BaseDbContext(DbContextOptions contextOptions, IConfiguration configuration) : base(contextOptions)
         {
@@ -76,27 +72,10 @@ namespace Devs.Persistence.Context
                 x.ToTable("UserGitHub");
 
                 x.Property(x => x.Id).HasColumnName("Id");
-                x.Property(x => x.AppUserId).HasColumnName("AppUserId");
+                x.Property(x => x.UserId).HasColumnName("UserId");
                 x.Property(x => x.GitHubUrl).HasColumnName("GitHubUrl");
 
-                x.HasOne(x => x.AppUser);
-            });
-
-            modelBuilder.Entity<AppUser>(x =>
-            {
-                x.ToTable("AppUser");
-
-                x.HasOne(x => x.UserGitHub);
-            });
-
-            modelBuilder.Entity<UserGitHub>(x =>
-            {
-                x.ToTable("UserGitHub").HasKey(x => x.Id);
-                x.Property(x => x.Id).HasColumnName("Id");
-                x.Property(x => x.AppUserId).HasColumnName("AppUserId");
-                x.Property(x => x.GitHubUrl).HasColumnName("GitHubUrl");
-
-                x.HasOne(x => x.AppUser);
+                x.HasOne(x => x.User);
             });
 
             modelBuilder.Entity<OperationClaim>(x =>
@@ -112,7 +91,7 @@ namespace Devs.Persistence.Context
 
                 x.Property(x=>x.Id);
                 x.Property(x=>x.UserId);
-                x.Property(x=>x.OperationClaimId).HasColumnName("OperationClaim");
+                x.Property(x=>x.OperationClaimId).HasColumnName("OperationClaimId");
 
                 x.HasOne(x=>x.User);
                 x.HasOne(x=>x.OperationClaim);
@@ -169,7 +148,7 @@ namespace Devs.Persistence.Context
                 new AppUser {Id = 1 ,FirstName="Test" , LastName = "Testoğlu", Email = "test@testmail.com",}
             };
             */
-            /*
+            
             OperationClaim[] operationClaimsEntitySeeds =
             {
                 new(1, "Admin"), 
@@ -177,7 +156,7 @@ namespace Devs.Persistence.Context
             };
             modelBuilder.Entity<OperationClaim>().HasData(operationClaimsEntitySeeds);
 
-            */
+            
 
         }
 

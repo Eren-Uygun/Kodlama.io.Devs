@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Devs.Persistence.Migrations
 {
-    public partial class First : Migration
+    public partial class first : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "OperationClaim",
+                name: "OperationClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -19,7 +19,7 @@ namespace Devs.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OperationClaim", x => x.Id);
+                    table.PrimaryKey("PK_OperationClaims", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,7 +46,7 @@ namespace Devs.Persistence.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     AuthenticatorType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -102,29 +102,58 @@ namespace Devs.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserOperationClaim",
+                name: "UserGitHub",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    OperationClaimId = table.Column<int>(type: "int", nullable: false)
+                    GitHubUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserOperationClaim", x => x.Id);
+                    table.PrimaryKey("PK_UserGitHub", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserOperationClaim_OperationClaim_OperationClaimId",
-                        column: x => x.OperationClaimId,
-                        principalTable: "OperationClaim",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserOperationClaim_Users_UserId",
+                        name: "FK_UserGitHub_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserOperationClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    OperationClaim = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserOperationClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserOperationClaims_OperationClaims_OperationClaim",
+                        column: x => x.OperationClaim,
+                        principalTable: "OperationClaims",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserOperationClaims_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "OperationClaims",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "User" }
                 });
 
             migrationBuilder.InsertData(
@@ -161,13 +190,18 @@ namespace Devs.Persistence.Migrations
                 column: "Programming_Language_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaim_OperationClaimId",
-                table: "UserOperationClaim",
-                column: "OperationClaimId");
+                name: "IX_UserGitHub_UserId",
+                table: "UserGitHub",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaim_UserId",
-                table: "UserOperationClaim",
+                name: "IX_UserOperationClaims_OperationClaim",
+                table: "UserOperationClaims",
+                column: "OperationClaim");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserOperationClaims_UserId",
+                table: "UserOperationClaims",
                 column: "UserId");
         }
 
@@ -180,13 +214,16 @@ namespace Devs.Persistence.Migrations
                 name: "Technologies");
 
             migrationBuilder.DropTable(
-                name: "UserOperationClaim");
+                name: "UserGitHub");
+
+            migrationBuilder.DropTable(
+                name: "UserOperationClaims");
 
             migrationBuilder.DropTable(
                 name: "ProgrammingLanguages");
 
             migrationBuilder.DropTable(
-                name: "OperationClaim");
+                name: "OperationClaims");
 
             migrationBuilder.DropTable(
                 name: "Users");

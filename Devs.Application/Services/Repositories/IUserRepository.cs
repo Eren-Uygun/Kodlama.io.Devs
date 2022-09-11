@@ -1,5 +1,5 @@
 ﻿using Core.Persistence.Repositories;
-using Devs.Domain.Entities;
+using Core.Security.Entities;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 
 namespace Devs.Application.Services.Repositories
 {
-    public interface IAppUserRepository:IAsyncRepository<AppUser>,IRepository<AppUser>
+    public interface IUserRepository:IAsyncRepository<User>,IRepository<User>
     {
-            public Task<AppUser?> GetAsyncWithInclude(Expression<Func<AppUser, bool>> predicate,Func<IQueryable<AppUser>, IIncludableQueryable<AppUser, object>>? include = null);
+        public Task<User?> GetAsyncWithInclude(Expression<Func<User, bool>> predicate,Func<IQueryable<User>, IIncludableQueryable<User, object>>? include = null);
     }
 }

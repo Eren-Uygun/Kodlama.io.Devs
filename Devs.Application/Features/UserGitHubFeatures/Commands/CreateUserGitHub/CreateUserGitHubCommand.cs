@@ -14,7 +14,7 @@ namespace Devs.Application.Features.UserGitHubFeatures.Commands.CreateUserGitHub
 {
     public class CreateUserGitHubCommand:IRequest<CreatedUserGitHubDto>
     {
-        public int AppUserId {get;set;}
+        public int UserId {get;set;}
         public string GitHubUrl { get; set; }
 
         public class CreateUserGitHubCommandHandler : IRequestHandler<CreateUserGitHubCommand, CreatedUserGitHubDto>
@@ -35,6 +35,7 @@ namespace Devs.Application.Features.UserGitHubFeatures.Commands.CreateUserGitHub
                 UserGitHub userGitHub = _mapper.Map<UserGitHub>(request);
                 UserGitHub addedGithub = await _userGitHubRepository.AddAsync(userGitHub);
                 CreatedUserGitHubDto createdUserGitHubDto = _mapper.Map<CreatedUserGitHubDto>(addedGithub);
+
                 return createdUserGitHubDto;
             }
         }

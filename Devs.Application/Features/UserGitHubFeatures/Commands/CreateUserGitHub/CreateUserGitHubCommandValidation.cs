@@ -11,8 +11,8 @@ namespace Devs.Application.Features.UserGitHubFeatures.Commands.CreateUserGitHub
     {
         public CreateUserGitHubCommandValidation()
         {
-            RuleFor(x=>x.AppUserId).NotEmpty();
-            RuleFor(x=>x.AppUserId).NotNull();
+            RuleFor(x=>x.UserId).NotEmpty();
+            RuleFor(x=>x.UserId).NotNull();
 
             RuleFor(x=>x.GitHubUrl).NotNull();
             RuleFor(x=>x.GitHubUrl).NotEmpty();

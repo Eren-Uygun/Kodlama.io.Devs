@@ -1,6 +1,6 @@
 ﻿using Core.Persistence.Repositories;
+using Core.Security.Entities;
 using Devs.Application.Services.Repositories;
-using Devs.Domain.Entities;
 using Devs.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
@@ -14,16 +14,16 @@ using System.Threading.Tasks;
 
 namespace Devs.Persistence.Repositories
 {
-    public class AppUserRepository : EfRepositoryBase<AppUser, BaseDbContext>, IAppUserRepository
+    public class UserRepository : EfRepositoryBase<User, BaseDbContext>, IUserRepository
     {
-        public AppUserRepository(BaseDbContext context) : base(context)
+        public UserRepository(BaseDbContext context) : base(context)
         {
-            
+
         }
 
-        public async Task<AppUser?> GetAsyncWithInclude(Expression<Func<AppUser, bool>> predicate, Func<IQueryable<AppUser>, IIncludableQueryable<AppUser, object>>? include = null)
+        public async Task<User?> GetAsyncWithInclude(Expression<Func<User, bool>> predicate, Func<IQueryable<User>, IIncludableQueryable<User, object>>? include = null)
         {
-        IQueryable<AppUser> queryable = Query();
+             IQueryable<User> queryable = Query();
         if (include != null) queryable = include(queryable);
         if (predicate != null) queryable = queryable.Where(predicate);
         return await queryable.FirstOrDefaultAsync();
