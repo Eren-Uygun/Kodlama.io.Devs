@@ -14,9 +14,6 @@ namespace Devs.Application.Features.AuthFeatures.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<UserForRegisterDto,UserRegisterCommand>();
-            CreateMap<UserForLoginDto,UserLoginCommand>();
-
 
         }
     }

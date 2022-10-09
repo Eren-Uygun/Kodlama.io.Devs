@@ -25,8 +25,12 @@ namespace Devs.Persistence
             services.AddScoped<IProgrammingLanguageRepository,ProgrammingLanguageRepository>();
             services.AddScoped<ITechnologyRepository,TechnologyRepository>();
             services.AddScoped<IUserGitHubRepository,UserGitHubRepository>();
+
             services.AddScoped<IUserRepository,UserRepository>();
             services.AddScoped<IUserOperationClaimsRepository,UserOperationsClaimRepository>();
+            services.AddScoped<IOperationClaimRepository,OperationClaimRepository>();
+            services.AddScoped<IRefreshTokenRepository,RefreshTokenRepository>();
+
 
 
             return services;

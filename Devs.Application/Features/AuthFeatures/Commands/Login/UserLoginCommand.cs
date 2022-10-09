@@ -4,6 +4,9 @@ using Core.Security.Dtos;
 using Core.Security.Entities;
 using Core.Security.Hashing;
 using Core.Security.JWT;
+using Devs.Application.Features.AuthFeatures.Dtos;
+using Devs.Application.Features.AuthFeatures.Rules;
+using Devs.Application.Services.AuthService;
 using Devs.Application.Services.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -15,40 +18,44 @@ using System.Threading.Tasks;
 
 namespace Devs.Application.Features.AuthFeatures.Commands.Login
 {
-    public class UserLoginCommand:UserForLoginDto,IRequest<AccessToken>
+    public class UserLoginCommand:UserForLoginDto,IRequest<LoggingInDto>
     {
         public UserForLoginDto UserForLoginDto { get; set; }
     }
-    public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, AccessToken>
+    public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, LoggingInDto>
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        private readonly ITokenHelper _tokenHelper;
+        private IAuthService _authService;
+        private AuthBusinessRules _authBusinessRules;
 
-        public UserLoginCommandHandler(IUserRepository userRepository, IMapper mapper, ITokenHelper tokenHelper)
+        public UserLoginCommandHandler(IUserRepository userRepository, IMapper mapper, IAuthService authService, AuthBusinessRules authBusinessRules)
         {
             _userRepository = userRepository;
             _mapper = mapper;
-            _tokenHelper = tokenHelper;
+            _authService = authService;
+            _authBusinessRules = authBusinessRules;
         }
 
-        public async Task<AccessToken> Handle(UserLoginCommand request, CancellationToken cancellationToken)
-        {
-            var result = await _userRepository.GetAsyncWithInclude(x=>x.Email.ToLower() == request.UserForLoginDto.Email.ToLower(),include: x=>x.Include(x=>x.UserOperationClaims).ThenInclude(x=>x.OperationClaim));
+        public async Task<LoggingInDto> Handle(UserLoginCommand request, CancellationToken cancellationToken)
+        { 
+           User user =  _authBusinessRules.UserShouldBeExistsWhenLoggingIn(request.UserForLoginDto.Email);
 
-            var validation = HashingHelper.VerifyPasswordHash(request.UserForLoginDto.Password,result.PasswordSalt,result.PasswordHash);
+            await _authBusinessRules.VerifyUserPassword(request.UserForLoginDto.Password,user.PasswordHash,user.PasswordSalt);
 
-            //if(!validation) throw new BusinessException("WrongPassword");
-             
+            AccessToken createdAccessToken = await _authService.CreateAccessToken(user);
+            RefreshToken createdRefreshToken = await _authService.CreateRefreshToken(user);
+            RefreshToken addedRefreshToken = await _authService.AddRefreshToken(createdRefreshToken);
 
-            List<OperationClaim> operationClaims = new List<OperationClaim>();
-            foreach (var operationClaim in result.UserOperationClaims)
+            LoggingInDto loggingInDto = new()
             {
-                operationClaims.Add(operationClaim.OperationClaim);
-            }
+                 
+                 RefreshToken = addedRefreshToken,
+                 AccessToken = createdAccessToken,
+                 
+            };
 
-            var token = _tokenHelper.CreateToken(result,operationClaims);
-            return token;
+            return loggingInDto;
         }
     }
     

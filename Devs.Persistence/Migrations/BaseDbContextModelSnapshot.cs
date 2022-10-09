@@ -94,7 +94,7 @@ namespace Devs.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.User", b =>
@@ -156,7 +156,7 @@ namespace Devs.Persistence.Migrations
 
                     b.Property<int>("OperationClaimId")
                         .HasColumnType("int")
-                        .HasColumnName("OperationClaim");
+                        .HasColumnName("OperationClaimId");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

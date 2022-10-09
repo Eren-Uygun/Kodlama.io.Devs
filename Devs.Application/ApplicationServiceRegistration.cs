@@ -1,8 +1,10 @@
 ﻿using Core.Application.Pipelines.Authorization;
 using Core.Application.Pipelines.Validation;
+using Devs.Application.Features.AuthFeatures.Rules;
 using Devs.Application.Features.ProgrammingLanguageFeatures.Rules;
 using Devs.Application.Features.TechnologyFeatures.Rules;
 using Devs.Application.Features.UserGitHubFeatures.Rules;
+using Devs.Application.Services.AuthService;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +28,7 @@ namespace Devs.Application
             services.AddScoped<ProgrammingLanguageBusinessRules>();
             services.AddScoped<TechnologyBusinessRules>();
             services.AddScoped<UserGitHubBusinessRules>();
+            services.AddScoped<AuthBusinessRules>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
@@ -38,6 +41,7 @@ namespace Devs.Application
 
             */
 
+            services.AddScoped<IAuthService,AuthManager>();
 
             return services;
 

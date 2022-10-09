@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Devs.Persistence.Migrations
 {
-    public partial class first : Migration
+    public partial class LoginRegister : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -75,7 +75,7 @@ namespace Devs.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RefreshToken",
+                name: "RefreshTokens",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -92,9 +92,9 @@ namespace Devs.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                    table.PrimaryKey("PK_RefreshTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RefreshToken_Users_UserId",
+                        name: "FK_RefreshTokens_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -128,14 +128,14 @@ namespace Devs.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    OperationClaim = table.Column<int>(type: "int", nullable: false)
+                    OperationClaimId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserOperationClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserOperationClaims_OperationClaims_OperationClaim",
-                        column: x => x.OperationClaim,
+                        name: "FK_UserOperationClaims_OperationClaims_OperationClaimId",
+                        column: x => x.OperationClaimId,
                         principalTable: "OperationClaims",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -180,8 +180,8 @@ namespace Devs.Persistence.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefreshToken_UserId",
-                table: "RefreshToken",
+                name: "IX_RefreshTokens_UserId",
+                table: "RefreshTokens",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -195,9 +195,9 @@ namespace Devs.Persistence.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserOperationClaims_OperationClaim",
+                name: "IX_UserOperationClaims_OperationClaimId",
                 table: "UserOperationClaims",
-                column: "OperationClaim");
+                column: "OperationClaimId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserOperationClaims_UserId",
@@ -208,7 +208,7 @@ namespace Devs.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "RefreshToken");
+                name: "RefreshTokens");
 
             migrationBuilder.DropTable(
                 name: "Technologies");

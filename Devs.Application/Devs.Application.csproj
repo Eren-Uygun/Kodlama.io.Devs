@@ -20,7 +20,6 @@
   </ItemGroup>
 	
 	  <ItemGroup>
-	    <Folder Include="Features\AuthFeatures\Dtos\" />
 	    <Folder Include="Features\UserGitHubFeatures\Models\" />
 	    <Folder Include="Features\UserGitHubFeatures\Queries\" />
 	  </ItemGroup>

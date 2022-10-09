@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Devs.Persistence.Migrations
 {
     [DbContext(typeof(BaseDbContext))]
-    [Migration("20220911154302_first")]
-    partial class first
+    [Migration("20221009115136_Login-Register")]
+    partial class LoginRegister
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,7 +96,7 @@ namespace Devs.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("RefreshToken");
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("Core.Security.Entities.User", b =>
@@ -158,7 +158,7 @@ namespace Devs.Persistence.Migrations
 
                     b.Property<int>("OperationClaimId")
                         .HasColumnType("int")
-                        .HasColumnName("OperationClaim");
+                        .HasColumnName("OperationClaimId");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");

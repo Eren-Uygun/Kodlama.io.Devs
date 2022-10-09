@@ -21,6 +21,8 @@ namespace Devs.Persistence.Context
         private DbSet<User> Users { get; set; }
         private DbSet<OperationClaim> OperationClaims { get; set; }
         private DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        private DbSet<RefreshToken> RefreshTokens { get; set; }
+
 
         public BaseDbContext(DbContextOptions contextOptions, IConfiguration configuration) : base(contextOptions)
         {
@@ -78,50 +80,43 @@ namespace Devs.Persistence.Context
                 x.HasOne(x => x.User);
             });
 
+            modelBuilder.Entity<User>(x =>
+             {
+                 x.ToTable("Users").HasKey(pk => pk.Id);
+             
+                 x.Property(x => x.Id).HasColumnName("Id");
+                 x.Property(x => x.FirstName).HasColumnName("FirstName");
+                 x.Property(x => x.LastName).HasColumnName("LastName");
+                 x.Property(x => x.Email).HasColumnName("Email");
+                 x.Property(x => x.PasswordHash).HasColumnName("PasswordHash");
+                 x.Property(x => x.PasswordSalt).HasColumnName("PasswordSalt");
+                 x.Property(x => x.Status).HasColumnName("Status").HasDefaultValue(true);
+                 x.Property(x => x.AuthenticatorType).HasColumnName("AuthenticatorType");
+             
+                 x.HasMany(x => x.UserOperationClaims);
+                 x.HasMany(x => x.RefreshTokens);
+             });
+
+
             modelBuilder.Entity<OperationClaim>(x =>
             {
-                x.ToTable("OperationClaims").HasKey(x=>x.Id);
-                x.Property(x=>x.Id).HasColumnName("Id");
-                x.Property(x=>x.Name).HasColumnName("Name");
+                x.ToTable("OperationClaims").HasKey(x => x.Id);
+                x.Property(x => x.Id).HasColumnName("Id");
+                x.Property(x => x.Name).HasColumnName("Name");
             });
 
             modelBuilder.Entity<UserOperationClaim>(x =>
             {
                 x.ToTable("UserOperationClaims").HasKey(x => x.Id);
 
-                x.Property(x=>x.Id);
-                x.Property(x=>x.UserId);
-                x.Property(x=>x.OperationClaimId).HasColumnName("OperationClaimId");
+                x.Property(x => x.Id);
+                x.Property(x => x.UserId);
+                x.Property(x => x.OperationClaimId).HasColumnName("OperationClaimId");
 
-                x.HasOne(x=>x.User);
-                x.HasOne(x=>x.OperationClaim);
+                x.HasOne(x => x.User);
+                x.HasOne(x => x.OperationClaim);
 
-             });
-
-
-            modelBuilder.Entity<User>(x =>
-            {
-                x.ToTable("Users").HasKey(pk => pk.Id);
-
-                x.Property(x => x.Id).HasColumnName("Id");
-                x.Property(x => x.FirstName).HasColumnName("FirstName");
-                x.Property(x => x.LastName).HasColumnName("LastName");
-                x.Property(x => x.Email).HasColumnName("Email");
-                x.Property(x => x.PasswordHash).HasColumnName("PasswordHash");
-                x.Property(x => x.PasswordSalt).HasColumnName("PasswordSalt");
-                x.Property(x => x.Status).HasColumnName("Status").HasDefaultValue(true);
-                x.Property(x => x.AuthenticatorType).HasColumnName("AuthenticatorType");
-
-                x.HasMany(x=>x.UserOperationClaims);
-                x.HasMany(x=>x.RefreshTokens);
             });
-
-            modelBuilder.Entity<OperationClaim>(p =>
-             {
-                 p.ToTable("OperationClaims").HasKey(o => o.Id);
-                 p.Property(o => o.Id).HasColumnName("Id");
-                 p.Property(o => o.Name).HasColumnName("Name");
-             });
 
             ProgrammingLanguage[] programmingLanguageEntitySeeds = {
                 new ProgrammingLanguage {Id=1,ProgrammingLanguageName="C#"},
@@ -142,21 +137,14 @@ namespace Devs.Persistence.Context
             modelBuilder.Entity<Technology>().HasData(technologyDataSeed);
 
 
-            /*
-            AppUser[] appUsersDataSeed =
-            {
-                new AppUser {Id = 1 ,FirstName="Test" , LastName = "Testoğlu", Email = "test@testmail.com",}
-            };
-            */
-            
             OperationClaim[] operationClaimsEntitySeeds =
             {
-                new(1, "Admin"), 
+                new(1, "Admin"),
                 new(2, "User")
             };
             modelBuilder.Entity<OperationClaim>().HasData(operationClaimsEntitySeeds);
 
-            
+
 
         }
 
